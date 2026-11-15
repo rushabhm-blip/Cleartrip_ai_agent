@@ -1,0 +1,63 @@
+/* Design tokens. Content, tokens, motion and fixtures are kept in separate files so they are easy to modify. */
+:root{
+  /* Brand */
+  --brand-orange:#FF4F17;          /* Cleartrip orange (verified on cleartrip.com homepage styles) */
+  --brand-orange-action:#D43F0A;   /* darker interaction orange: white 16px text on it reaches 4.65:1 */
+  --brand-orange-text:#C2410C;     /* small orange text on white: 5.2:1 */
+  --brand-orange-hover:#BB3608;
+  --brand-tint:#FFF0EA;            /* selected / soft surfaces */
+  --brand-tint-2:#FFE2D5;
+  --brand-ring:rgba(255,79,23,.35);
+
+  /* Neutrals (charcoal text, restrained grey separators) */
+  --ink:#1B1B1F;
+  --ink-2:#44444B;
+  --ink-3:#62626B;                 /* 5.9:1 on white */
+  --line:#E6E6EA;
+  --line-strong:#CFCFD6;
+  --surface:#FFFFFF;
+  --surface-2:#F6F6F8;
+  --surface-3:#EEEEF1;
+  --scrim:rgba(20,20,24,.45);
+
+  /* Semantic. Neutral status labels; red only for real warnings and always paired with text */
+  --warn:#B42318;
+  --warn-tint:#FDECEA;
+  --warn-line:#F4C7C3;
+  --ok-ink:#1B1B1F;
+
+  /* Type: Inter, 16px body, 14px supporting, 12px only for nonessential metadata */
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --fs-body:16px;
+  --fs-sub:14px;
+  --fs-meta:12px;
+  --fs-h2:20px;
+  --fs-h1:28px;
+
+  /* 8px spacing scale */
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:40px;--s8:48px;
+  --radius:12px;
+  --radius-sm:8px;
+  --radius-pill:999px;
+  --tap:44px;                      /* minimum touch target */
+  --shadow-1:0 1px 2px rgba(20,20,30,.06),0 2px 8px rgba(20,20,30,.05);
+  --shadow-2:0 8px 28px rgba(20,20,30,.16);
+
+  /* Motion. Prototype specification values, not official Cleartrip motion guidelines */
+  --m-hover:120ms;
+  --m-press:90ms;
+  --m-menu:160ms;
+  --m-panel:200ms;
+  --m-sheet-open:260ms;
+  --m-sheet-close:200ms;
+  --m-route:700ms;
+  --m-amount:300ms;
+  --m-status:180ms;
+  --ease-out:cubic-bezier(.2,.8,.2,1);
+  --ease-in:cubic-bezier(.4,0,1,1);
+}
+/* Reduced motion: same function, no travel, springs, drawing or shimmer. Also toggled from the Demo menu. */
+@media (prefers-reduced-motion:reduce){
+  :root{--m-hover:0ms;--m-press:0ms;--m-menu:0ms;--m-panel:0ms;--m-sheet-open:0ms;--m-sheet-close:0ms;--m-route:0ms;--m-amount:0ms;--m-status:0ms}
+}
+html.reduce-motion{--m-hover:0ms;--m-press:0ms;--m-menu:0ms;--m-panel:0ms;--m-sheet-open:0ms;--m-sheet-close:0ms;--m-route:0ms;--m-amount:0ms;--m-status:0ms}
