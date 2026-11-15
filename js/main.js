@@ -10,6 +10,7 @@ import * as V from './views.js';
 import * as P from './plan.js';
 import * as O from './overlays.js';
 import * as WB from './wishbox.js';
+import * as DC from './discover.js';
 import { wishboxHtml, revealHtml } from './wbviews.js';
 import { rupee, COPY, DEMO, SCOOTY } from './data.js';
 
@@ -51,6 +52,7 @@ function demoHtml() {
       <button class="dm" data-act="demo-nomatch">Trigger no results</button>
       <button class="dm" data-act="demo-error">Trigger connection failure</button>
       <label class="radio"><input type="checkbox" data-demo-reduce ${state.ui.reduced ? 'checked' : ''}> Reduced motion</label>
+      ${state.stage === 'discover' ? `<fieldset><legend>Find me a place</legend><button class="dm" data-act="dc-demo-fail">Make matching fail once</button></fieldset>` : ''}
       ${(state.stage === 'wishbox' || state.stage === 'reveal') ? `<fieldset><legend>Wishbox testing</legend><button class="dm" data-act="wb-demo-seed" data-n="3">Add 3 sample wishes</button><button class="dm" data-act="wb-demo-seed" data-n="10">Add 10 sample wishes</button><button class="dm" data-act="wb-demo-seed" data-n="20">Add 20 sample wishes</button><button class="dm" data-act="wb-demo-fail">Make AI grouping fail once</button><button class="dm" data-act="wb-demo-clearcap">Clear this member's cap</button><button class="dm danger" data-act="wb-demo-reset">Clear Wishbox</button></fieldset>` : ''}
       <button class="dm danger" data-act="demo-reset">Reset demo…</button></div></div>`;
 }
@@ -61,6 +63,8 @@ function buildApp() {
   const st = state.stage;
   const hdr = phone ? V.phoneBar({ back: st !== 'home' }) : V.hostHeader();
   if (st === 'home') return `<div class="shell">${hdr}<main id="main" class="home-main">${phone ? V.homePhone() : V.homeWeb()}</main>${phone ? V.bottomNav('home') : ''}</div>${demoHtml()}`;
+
+  if (st === 'discover') return `<div class="shell shell-wb">${hdr}<main id="main" class="planner wb-page dc-main" data-stage="discover">${DC.html()}</main></div>${demoHtml()}`;
 
   if (st === 'wishbox' || st === 'reveal') return `<div class="shell shell-wb">${hdr}<main id="main" class="planner wb-page" data-stage="${st}">${st === 'wishbox' ? wishboxHtml() : revealHtml()}</main></div>${demoHtml()}`;
 
@@ -136,6 +140,7 @@ function render() {
   if (!stageChanged) { const pn = $('.col-pane'); if (pn) pn.scrollTop = sc.pane; }
   mountGroup();
   WB.afterRender();
+  DC.afterRender();
   restoreFocus(focus);
   animateAmounts();
   lastStage = state.stage; lastBp = bp();
@@ -376,7 +381,7 @@ const A = {
   'demo-reset': () => O.showConfirmReset(),
   'confirm-reset': () => { closeOverlay(true); clearToast(); S.resetAll(); lastStage = null; prevAmts = {}; transient.routeSeen = false; notify(); toast('Demo reset.'); },
 };
-Object.assign(A, WB.actions);
+Object.assign(A, WB.actions, DC.actions);
 const hmTxt = h => { const m = Math.round(h * 60); return `${Math.floor(m / 60)} h${m % 60 ? ' ' + (m % 60) + ' m' : ''}`; };
 
 document.addEventListener('click', e => {
@@ -400,6 +405,7 @@ document.addEventListener('submit', e => {
   const kind = f.dataset.form;
   const fd = new FormData(f);
   if (kind.startsWith('wb-') && WB.onSubmit(kind, fd, f)) return;
+  if (kind.startsWith('dc-') && DC.onSubmit(kind, fd, f)) return;
   if (kind === 'chat') { const ta = f.querySelector('textarea'); const v = ta.value; ta.value = ''; autosize(ta); sendChat(v); return; }
   if (kind === 'add-friend') {
     const name = (fd.get('name') || '').toString().trim(), style = fd.get('style') || 'male';
@@ -470,6 +476,7 @@ function jumpTo(j) {
   transient.joinAnim = null;
   const joinAll = () => state.travellers.forEach(t => { t.status = 'joined'; });
   if (j === 'home') return;
+  if (j === 'discover' || j === 'discover-results') { state.stage = 'setup'; return DC.jump(j); }
   if (j === 'solo') { state.stage = 'setup'; state.ui.mtab = 'plan'; return; }
   add('Srikant'); add('Prathmesh'); joinAll(); transient.joinAnim = null;
   state.messages = [];

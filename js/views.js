@@ -4,6 +4,7 @@ import { esc, icon, isPhone } from './ui.js';
 import { avatar } from './characters.js';
 import { canAdd } from './looks.js';
 import { entryCard } from './wishbox.js';
+import { entryLink } from './discover.js';
 import { img, VIBES, COPY, rupee } from './data.js';
 
 const fmtTime = ts => ts ? new Date(ts).toLocaleTimeString('en-IN', { hour:'numeric', minute:'2-digit' }).toUpperCase() : '';
@@ -158,7 +159,7 @@ export function groupCard() {
 export function composerCard() {
   const t = state.trip;
   return `<section class="card compose-card" aria-labelledby="cc-t">
-    <h2 id="cc-t">Let's plan your getaway</h2>
+    <h2 id="cc-t">Let's plan your getaway</h2><p class="dc-compact">${entryLink()}</p>
     <p class="sentence" id="sentence">Take us to ${capsule('dest', 'Destination', t.dest)} from ${capsule('dates', 'Dates', fmtRange())} with ${capsule('budget', 'Budget per person', `${rupee(t.budget)} / person`, { accent:true })} to spend.</p>
     <div class="capsule-err" id="cap-err" role="alert"></div>
     <button class="btn btn-primary btn-block btn-lg" data-act="plan-trip">${icon('sparkle', '', 20)} Plan my trip</button>
@@ -211,7 +212,7 @@ export function widePlanPane() {
 }
 
 // ------------------------------------------------------------------ desktop setup: crew | getaway form | planning assistant
-const field = (f, label, value, ic) => `<div class="s2-f"><span class="s2-l" id="s2l-${f}">${label}</span><button type="button" class="s2-field" data-act="edit-capsule" data-field="${f}" aria-labelledby="s2l-${f}" aria-haspopup="dialog">${icon(ic, '', 20)}<span>${esc(value)}</span>${icon('down', '', 18)}</button></div>`;
+const field = (f, label, value, ic, extra = '') => `<div class="s2-f"><div class="s2-lr"><span class="s2-l" id="s2l-${f}">${label}</span>${extra}</div><button type="button" class="s2-field" data-act="edit-capsule" data-field="${f}" aria-labelledby="s2l-${f}" aria-haspopup="dialog">${icon(ic, '', 20)}<span>${esc(value)}</span>${icon('down', '', 18)}</button></div>`;
 export function setupDesktop() {
   const t = state.trip, n = party();
   const msgs = messagesHtml();
@@ -221,7 +222,7 @@ export function setupDesktop() {
       <section class="s2-card" aria-label="Group and trip">
         <div class="s2-crew"><h2>Your travel crew</h2><p class="s2-sub">${n} traveller${n === 1 ? '' : 's'}</p>${groupCard()}</div>
         <div class="s2-plan"><h2>Let's plan your getaway</h2>
-          ${field('dest', 'Destination', t.dest, 'pin')}
+          ${field('dest', 'Destination', t.dest, 'pin', entryLink())}
           ${entryCard(true)}
           <div class="s2-two">${field('dates', 'Dates', fmtRange(), 'cal')}${field('budget', 'Budget per person', rupee(t.budget), 'rupee')}</div>
           <div class="s2-f"><label class="s2-l" for="s2-notes">Anything we should know?</label><textarea id="s2-notes" rows="3" placeholder="A relaxed pace, local food, or must-see places..." data-notes>${esc(transient.notes || '')}</textarea></div>
