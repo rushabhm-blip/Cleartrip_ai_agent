@@ -70,6 +70,7 @@ export function homeWeb() {
         <div class="dest-grid">${[['city_goa', 'Goa', 'Beaches · Nightlife · Relaxation'], ['city_delhi', 'Delhi', 'History · Food · Culture'], ['city_mumbai', 'Mumbai', 'City life · Shopping · Heritage'], ['city_jaipur', 'Jaipur', 'Palaces · Heritage · Culture']].map(([i, n, s]) => `<button class="dest-card" data-act="host-stub"><img src="${img(i)}" alt="" loading="lazy"><span class="dest-b"><b>${n}</b><small>${s}</small></span>${icon('right', '', 18)}</button>`).join('')}</div>
       </section>
       <p class="foot-note">Proposed integration for a concept prototype. Entry placement is a proposal, not a claim about the current Cleartrip app. ${esc('Demo plan · sample prices')}</p>
+      <p class="foot-note foot-link">Project story: <a href="https://rushabhm-blip.github.io/cleartrip_presentation/" target="_blank" rel="noopener">Presentation, documentation and annotated prototype ↗</a></p>
     </div></div>`;
 }
 export function homePhone() {
@@ -84,6 +85,7 @@ export function homePhone() {
     <h2 class="hp-h2">Offers for your next trip</h2>
     <div class="promo"><img src="${img('promo_places')}" alt=""><div class="promo-t"><b>Discover<br>new places</b><span>Plan your next getaway with Cleartrip.</span></div></div>
     <p class="foot-note">Proposed integration. ${esc('Demo plan · sample prices')}</p>
+    <p class="foot-note foot-link">Project story: <a href="https://rushabhm-blip.github.io/cleartrip_presentation/" target="_blank" rel="noopener">Presentation, documentation and annotated prototype ↗</a></p>
   </div>`;
 }
 

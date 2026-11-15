@@ -1078,3 +1078,4 @@ html.reduce-motion .wb *,html.reduce-motion .rv *{animation:none!important;trans
 @media (max-width:640px){.dc-grid{grid-template-columns:1fr}.dc-go{width:100%;min-width:0}.dc-sub{font-size:17px}.dc-res .dc-edit{position:static}}
 @media (prefers-reduced-motion:reduce){.dc-globe.is-in,.dc-globe.is-up,.dc-card,.dc-doodles{animation:none!important;opacity:1}.dc-globe.is-in .dc-doodles{animation:none!important}}
 .dc-form{max-width:900px}.dc-grid{max-width:740px;margin-inline:auto}.dc-chips{justify-content:center}.dc-mood legend{text-align:center;float:none;width:100%}
+.foot-link{margin-top:6px}.foot-link a{color:var(--orange,#E2531C);font-weight:600;text-decoration:none}.foot-link a:hover{text-decoration:underline}
